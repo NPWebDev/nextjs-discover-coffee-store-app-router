@@ -1,18 +1,27 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Sans, Inter } from "next/font/google";
+import { IBM_Plex_Sans } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
-const ibmPlexSans = IBM_Plex_Sans({
-  display: "swap",
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
-  variable: "--font-ibmplexsans",
-});
+// const ibmPlexSans = IBM_Plex_Sans({
+//   display: "swap",
+//   subsets: ["latin"],
+//   weight: ["500", "600", "700"],
+// });
 
-const inter = Inter({
-  display: "swap",
-  subsets: ["latin"],
-  variable: "--font-inter",
+const ibmPlexSans = localFont({
+  src: [
+    {
+      path: "../public/fonts/IBM_Plex_Sans/IBMPlexSans-Bold.ttf",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/IBM_Plex_Sans/IBMPlexSans-BoldItalic.ttf",
+      weight: "700",
+      style: "italic",
+    },
+  ],
 });
 
 export const metadata: Metadata = {
@@ -27,9 +36,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${ibmPlexSans.variable}`}>
-        {children}
-      </body>
+      <body className={ibmPlexSans.className}>{children}</body>
     </html>
   );
 }
