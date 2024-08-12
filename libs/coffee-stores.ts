@@ -10,10 +10,10 @@ const transformCoffeeData = (result: MapboxType) => {
   };
 };
 
-export const fetchCoffeeStores = async () => {
+export const fetchCoffeeStores = async (longLat: string) => {
   try {
     const response = await fetch(
-      `https://api.mapbox.com/geocoding/v5/mapbox.places/coffee.json?proximity=121.4247566111859%2C31.2902297137895&access_token=${process.env.MAPBOX_API_TOKEN}`
+      `https://api.mapbox.com/geocoding/v5/mapbox.places/coffee.json?proximity=${longLat}&access_token=${process.env.NEXT_PUBLIC_MAPBOX_API_TOKEN}`
     );
     const data = await response.json();
 
@@ -25,7 +25,7 @@ export const fetchCoffeeStores = async () => {
   }
 };
 
-export const fetchCoffeeStore = async (id:string) => {
+export const fetchCoffeeStore = async (id: string) => {
   try {
     const response = await fetch(
       `https://api.mapbox.com/geocoding/v5/mapbox.places/${id}.json?proximity=ip&access_token=${process.env.MAPBOX_API_TOKEN}`

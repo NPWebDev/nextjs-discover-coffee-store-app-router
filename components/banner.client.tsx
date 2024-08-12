@@ -2,8 +2,10 @@ import React, { MouseEventHandler } from "react";
 
 export default function Banner({
   handleOnClick,
+  buttonText,
 }: {
   handleOnClick: MouseEventHandler<HTMLButtonElement | undefined>;
+  buttonText: String;
 }) {
   return (
     <div className="mb-12 grid lg:mb24 lg:grid-cols-2">
@@ -16,7 +18,7 @@ export default function Banner({
           Discover your local coffee shops
         </p>
         <div className="mt-12">
-          <button onClick={handleOnClick}>View store nearby</button>
+          <button onClick={handleOnClick}>{buttonText}</button>
         </div>
       </div>
     </div>
