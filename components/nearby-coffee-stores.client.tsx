@@ -5,7 +5,6 @@ import Banner from "./banner.client";
 import useTrackLocation from "@/hooks/use-track-location";
 import Card from "./card.server";
 import { CoffeeStoreType } from "@/types";
-import { fetchCoffeeStores } from "@/libs/coffee-stores";
 
 export default function NearbyCoffeeStores() {
   const { handleTrackLocation, isFindingLocation, longLat, locationError } =
@@ -20,8 +19,16 @@ export default function NearbyCoffeeStores() {
   useEffect(() => {
     async function coffeeStoresByLocation() {
       if (longLat) {
-        const response = await fetchCoffeeStores(longLat);
-        setCoffeeStores(response);
+        try {
+          const limit = 10;
+          const response = await fetch(
+            `/api/getCoffeeStoresByLocation?longLat=${longLat}&limit=${limit}`
+          );
+          const coffeeStores = await response.json();
+          setCoffeeStores(coffeeStores);
+        } catch (error) {
+          console.log(error);
+        }
       }
     }
     coffeeStoresByLocation();
@@ -34,13 +41,13 @@ export default function NearbyCoffeeStores() {
         buttonText={isFindingLocation ? "Locating..." : "View store nearby"}
       />
       {locationError && <p>{locationError}</p>}
-      <div className="mt-20">
-        <h2 className="mt-8 pb-8 text-4xl font-bold text-white">
-          Store near me
-        </h2>
-        <div className="grid grid-col-1 gap-4 md:grid-cols-2 md:gap-2 lg:grid-cols-3 lg:gap-6">
-          {coffeeStores &&
-            coffeeStores.map((coffeeStore: CoffeeStoreType, idx: Number) => (
+      {coffeeStores.length > 0 && (
+        <div className="mt-20">
+          <h2 className="mt-8 pb-8 text-4xl font-bold text-white">
+            Store near me
+          </h2>
+          <div className="grid grid-col-1 gap-4 md:grid-cols-2 md:gap-2 lg:grid-cols-3 lg:gap-6">
+            {coffeeStores.map((coffeeStore: CoffeeStoreType, idx: Number) => (
               <Card
                 key={`${coffeeStore.name}-${idx}`}
                 name={coffeeStore.name}
@@ -48,8 +55,9 @@ export default function NearbyCoffeeStores() {
                 href={`coffee-store/${coffeeStore.id}`}
               />
             ))}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
