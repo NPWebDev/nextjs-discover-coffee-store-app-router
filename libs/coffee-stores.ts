@@ -11,7 +11,7 @@ const transformCoffeeData = (result: MapboxType) => {
 };
 
 export const fetchCoffeeStores = async (
-  longLat: string = "",
+  longLat: string = "121.4247566111859%2C31.2902297137895",
   limit: number = 6
 ) => {
   try {

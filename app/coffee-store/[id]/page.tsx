@@ -1,3 +1,4 @@
+import { createCoffeeStore, findRecordByFilter } from "@/libs/aritable";
 import { fetchCoffeeStore, fetchCoffeeStores } from "@/libs/coffee-stores";
 import { CoffeeStoreType } from "@/types";
 import Image from "next/image";
@@ -5,7 +6,9 @@ import Link from "next/link";
 import React from "react";
 
 async function getData(id: string) {
-  return await fetchCoffeeStore(id);
+  const coffeeStoreFromMapbox = await fetchCoffeeStore(id);
+  const coffeeStore = createCoffeeStore(coffeeStoreFromMapbox, id);
+  return coffeeStoreFromMapbox;
 }
 
 export async function generateStaticParams() {
