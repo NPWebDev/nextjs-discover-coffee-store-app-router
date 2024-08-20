@@ -1,3 +1,4 @@
+import Upvote from "@/components/upvote.client";
 import { createCoffeeStore, findRecordByFilter } from "@/libs/aritable";
 import { fetchCoffeeStore, fetchCoffeeStores } from "@/libs/coffee-stores";
 import { CoffeeStoreType } from "@/types";
@@ -7,8 +8,14 @@ import React from "react";
 
 async function getData(id: string) {
   const coffeeStoreFromMapbox = await fetchCoffeeStore(id);
-  const coffeeStore = createCoffeeStore(coffeeStoreFromMapbox, id);
-  return coffeeStoreFromMapbox;
+  const coffeeStore = await createCoffeeStore(coffeeStoreFromMapbox, id);
+  const voting = coffeeStore ? coffeeStore[0].voting : 0;
+  return coffeeStoreFromMapbox
+    ? {
+        ...coffeeStoreFromMapbox,
+        voting,
+      }
+    : {};
 }
 
 export async function generateStaticParams() {
@@ -25,7 +32,7 @@ export default async function Page(props: { params: { id: string } }) {
   } = props;
 
   const coffeeStore = await getData(id);
-  const { name = "", address = "", imgUrl = "" } = coffeeStore;
+  const { name = "", address = "", imgUrl = "", voting } = coffeeStore;
 
   return (
     <div className="h-full pb-80">
@@ -54,6 +61,7 @@ export default async function Page(props: { params: { id: string } }) {
               <p className="pl-2">{address}</p>
             </div>
           )}
+          <Upvote voting={voting} id={id} />
         </div>
       </div>
     </div>
