@@ -20,8 +20,10 @@ export const fetchCoffeeStores = async (
     );
     const data = await response.json();
 
-    return data.features.map((result: MapboxType) =>
-      transformCoffeeData(result)
+    return (
+      data?.features?.map((result: MapboxType) =>
+        transformCoffeeData(result)
+      ) || []
     );
   } catch (error) {
     console.error("Error while fetching coffee stores", error);
@@ -35,9 +37,10 @@ export const fetchCoffeeStore = async (id: string) => {
     );
     const data = await response.json();
 
-    const transformedData = data.features.map((result: MapboxType) =>
-      transformCoffeeData(result)
-    );
+    const transformedData =
+      data?.features?.map((result: MapboxType) =>
+        transformCoffeeData(result)
+      ) || [];
 
     return transformedData.length > 0 ? transformedData[0] : {};
   } catch (error) {

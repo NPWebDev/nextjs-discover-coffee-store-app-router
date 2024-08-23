@@ -5,6 +5,13 @@ import { fetchCoffeeStores } from "@/libs/coffee-stores";
 import { CoffeeStoreType } from "@/types";
 
 async function getData() {
+  if (
+    !process.env.MAPBOX_API_TOKEN ||
+    !process.env.UNSPLASH_ACCESS_KEY ||
+    !process.env.AIRTABLE_API_KEY
+  ) {
+    throw new Error("One of API keys is not configured");
+  }
   const SHANGHAI_LONG_LAT = "121.4247566111859%2C31.2902297137895";
   return await fetchCoffeeStores(SHANGHAI_LONG_LAT);
 }
