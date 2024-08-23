@@ -3,6 +3,8 @@ import Card from "@/components/card.server";
 import NearbyCoffeeStores from "@/components/nearby-coffee-stores.client";
 import { fetchCoffeeStores } from "@/libs/coffee-stores";
 import { CoffeeStoreType } from "@/types";
+import { Metadata } from "next";
+import { getDomain } from "./utils";
 
 async function getData() {
   if (
@@ -15,6 +17,15 @@ async function getData() {
   const SHANGHAI_LONG_LAT = "121.4247566111859%2C31.2902297137895";
   return await fetchCoffeeStores(SHANGHAI_LONG_LAT);
 }
+
+export const metadata: Metadata = {
+  title: "Coffee Connoisseur",
+  description: "Allow you to discover coffee store near you",
+  metadataBase: getDomain(),
+  alternates: {
+    canonical: "/",
+  },
+};
 export default async function Home() {
   const coffeeStores = await getData();
 

@@ -1,7 +1,8 @@
+import { getDomain } from "@/app/utils";
 import Upvote from "@/components/upvote.client";
 import { createCoffeeStore, findRecordByFilter } from "@/libs/aritable";
 import { fetchCoffeeStore, fetchCoffeeStores } from "@/libs/coffee-stores";
-import { CoffeeStoreType } from "@/types";
+import { CoffeeStoreType, ServerParamsType } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -24,6 +25,23 @@ export async function generateStaticParams() {
   return coffeeStores.map((coffeeStore: CoffeeStoreType) => {
     return { id: coffeeStore.id };
   });
+}
+
+export async function generateMetadata({
+  params,
+  searchParams,
+}: ServerParamsType) {
+  console.log(params);
+  const coffeeStore = await fetchCoffeeStore(params.id);
+  const { name = "" } = coffeeStore;
+  return {
+    title: name,
+    description: `${name} - Coffee Store`,
+    metadataBase: getDomain(),
+    alternates: {
+      canonical: `/coffee-store/${params.id}`,
+    },
+  };
 }
 
 export default async function Page(props: { params: { id: string } }) {
