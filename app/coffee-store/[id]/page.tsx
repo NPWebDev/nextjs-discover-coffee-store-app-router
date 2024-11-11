@@ -70,7 +70,7 @@ export default async function Page(props: { params: { id: string } }) {
             }
             width={740}
             height={360}
-            alt={name}
+            alt={"Coffee Store Image"}
           />
         </div>
         <div className="glass mt-12 flex-col rounded-lg p-4 lg:mt-48">

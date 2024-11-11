@@ -17,12 +17,14 @@ export default function Card({ name, imgUrl, href }: CardType) {
             {name}
           </h2>
         </div>
-        <div className="relative h-48">
+        <div className="relative w-full h-48">
           <Image
             className="rounded-lg shadow-lg"
             src={imgUrl}
-            alt={name}
+            alt={"Coffee Store Image"}
             fill
+            objectFit="cover"
+            priority
             blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAFhAJ/wlseKgAAAABJRU5ErkJggg=="
             placeholder="blur"
           />
